@@ -1,2 +1,2 @@
-# SistemaComercial2
-Projeto desenvolvido para a disciplina de Desenvolvimento Web II
+# Crud-Bd
+Desenvolvimento Web - Implementação de CRUD / Banco de dados
