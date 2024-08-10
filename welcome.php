@@ -24,7 +24,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
         <div class="jumbotron bg-primary">
             <div class="row text-white">
                 <h1 class="font-weight-bold">SISTEMA DE CADASTROS</h1>
-                <h3><span class="badge bg-primary"> Versão 1.0</span></h3>
+                <h3><span class="badge bg-primary"> Versão 2.0</span></h3>
             </div>
         </div>
         <div class="card">
@@ -33,7 +33,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                 <div class="text-center">
                     <a href="clientes.php" class="btn btn-primary btn-lg 
                     mx-3"><h2>Clientes</h2></a>
-                    <a href="/app/views/auth/logout.php" class="btn btn-secondary btn-lg mx-3"><h2>Fornecedores</h2></a>
+                    <a href="fornecedores.php" class="btn btn-secondary btn-lg mx-3"><h2>Fornecedores</h2></a>
                 </div>
                 <br><br><br><br>
                 <footer>

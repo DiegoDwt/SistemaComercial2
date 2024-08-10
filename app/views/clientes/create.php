@@ -1,48 +1,25 @@
 <?php
 
-namespace App\Views\Clientes;
-
-require_once __DIR__ . '/../../../core/Banco.php';
-require_once __DIR__ . '/../../../app/models/Cliente.php';
-require_once __DIR__ . '/../../../app/models/ClienteDAO.php';
-
-use App\Models\Cliente;
-use App\Models\ClienteDAO;
-use Core\Banco; 
+namespace App\Controllers;
 
 session_start();
 
-$nomeErro = '';
-$cpfErro = '';
-$enderecoErro = '';
-$telefoneErro = '';
-$emailErro = '';
-$sexoErro = '';
-$validacao = true;
+use App\Controllers\ClienteController;
+use Core\Banco;
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nome = $_POST['nome'] ?? '';
-    $cpf = $_POST['cpf'] ?? '';
-    $endereco = $_POST['endereco'] ?? '';
-    $telefone = $_POST['telefone'] ?? '';
-    $email = $_POST['email'] ?? '';
-    $sexo = $_POST['sexo'] ?? '';
+require __DIR__ . '/../../../vendor/autoload.php';
+$log = require __DIR__ . '/../../../config/log.php';
+require_once __DIR__ . '/../../../app/controllers/ClientesController.php';
 
-    // Validação dos campos, código omitido para brevidade...
-
-    if ($validacao) {
-        // Aqui você deve passar a coleção correta do MongoDB para o construtor de ClienteDAO
-        $clienteDAO = new ClienteDAO(Banco::getDatabase()->Clientes); // Ajuste conforme sua implementação
-        $cliente = new Cliente($nome, $cpf, $endereco, $telefone, $email, $sexo);
-        try {
-            $clienteDAO->create($cliente);
-            header("Location:../../../clientes.php");
-            exit();
-        } catch (Exception $e) {
-            echo "Falha ao criar o cliente.";
-        }
-    }
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $clienteController = new ClienteController($log);
+    $clienteController->create();
+    
+    // Redireciona para a página de clientes após a criação
+    header("Location: ../../../clientes.php");
+    exit;
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -58,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="container col-md-8 col-sm-8 col-xs-12 form-group has-feedback" >
               <div class="jumbotron bg-primary">
                   <div class="row text-white"  >
-                      <h1 class="font-weight-bold">SISTEMA DE CADASTROS</h1><h3><span class="badge bg-primary"> Versão 1.0</span></h3>
+                      <h1 class="font-weight-bold">SISTEMA DE CADASTROS</h1><h3><span class="badge bg-primary"> Versão 2.0</span></h3>
                   </div>
               </div>
             </div>

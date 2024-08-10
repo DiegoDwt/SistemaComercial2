@@ -3,6 +3,14 @@ session_start();
 
 include_once __DIR__ . '/config/config.php';
 require_once __DIR__ . '/core/banco.php';
+require 'vendor/autoload.php';
+
+// Configuração do Monolog
+$log = require 'config/log.php';
+
+// Exemplo de como usar o logger
+$log->warning('Aviso: Este é um aviso de exemplo.');
+$log->error('Erro: Este é um erro de exemplo.');
 
 $username = $password = "";
 $username_err = $password_err = $login_err = "";
@@ -55,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="jumbotron bg-primary">
             <div class="row text-white">
                 <h1 class="font-weight-bold">SISTEMA DE CADASTROS</h1>
-                <h3><span class="badge bg-primary"> Versão 1.0</span></h3>
+                <h3><span class="badge bg-primary"> Versão 2.0</span></h3>
             </div>
         </div>
     </div>
