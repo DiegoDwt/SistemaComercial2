@@ -1,38 +1,22 @@
 <?php
-namespace App\Views\Clientes;
-
 session_start();
 
-require_once '../../../config/config.php'; 
-require_once '../../../app/controllers/ClientesController.php'; 
-require_once '../../../core/Banco.php';
+use App\Controllers\ClienteController;
+use Core\Banco;
 
-use App\Controllers\ClientesController;
-use App\Banco;
+require __DIR__ . '/../../../vendor/autoload.php';
+$log = require __DIR__ . '/../../../config/log.php';
+require_once __DIR__ . '/../../../app/controllers/ClientesController.php';
 
-
-
-// Verifica se o usuário está logado
-if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"]!== true) {
-    header("location:../../../login.php");
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['id'])) {
+    $clienteController = new ClienteController($log);
+    $clienteController->update($_GET['id']);
+    
+    // Redireciona para a página de clientes após a atualização
+    header("Location: ../../../clientes.php");
     exit;
 }
 
-// Verifica se o ID do cliente foi passado corretamente
-if (!isset($_GET['id']) || empty($_GET['id'])) {
-    echo "ID do cliente não fornecido.";
-    exit;
-}
-
-
-// Instancia o controlador de clientes
-$clienteController = new ClientesController();
-
-// Verifica se o método de atualização foi chamado
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Chama o método de atualização no controlador
-    $clienteController->update();
-}
 ?>
 
 
@@ -48,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="jumbotron bg-primary">
             <div class="row text-white">
                 <h1 class="font-weight-bold">SISTEMA DE CADASTROS</h1>
-                <h3><span class="badge bg-primary">Versão 1.0</span></h3>
+                <h3><span class="badge bg-primary">Versão 2.0</span></h3>
             </div>
         </div>
     </div>

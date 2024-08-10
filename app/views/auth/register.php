@@ -86,7 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="container col-md-8 col-sm-8 col-xs-12 form-group has-feedback" >
     <div class="jumbotron bg-primary">
         <div class="row text-white"  >
-            <h1 class="font-weight-bold">SISTEMA DE CADASTROS</h1><h3><span class="badge bg-primary"> Versão 1.0</span></h3>
+            <h1 class="font-weight-bold">SISTEMA DE CADASTROS</h1><h3><span class="badge bg-primary"> Versão 2.0</span></h3>
         </div>
     </div>
 </div>

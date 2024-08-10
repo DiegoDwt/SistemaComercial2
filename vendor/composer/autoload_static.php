@@ -28,6 +28,10 @@ class ComposerStaticInit0ebfbecc1f7223b700b31bbb4c4eb2bd
             'Monolog\\' => 8,
             'MongoDB\\' => 8,
         ),
+        'C' => 
+        array (
+            'Core\\' => 5,
+        ),
         'A' => 
         array (
             'App\\' => 4,
@@ -58,6 +62,10 @@ class ComposerStaticInit0ebfbecc1f7223b700b31bbb4c4eb2bd
         'MongoDB\\' => 
         array (
             0 => __DIR__ . '/..' . '/mongodb/mongodb/src',
+        ),
+        'Core\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/core',
         ),
         'App\\' => 
         array (

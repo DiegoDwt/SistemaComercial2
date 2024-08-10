@@ -4,12 +4,13 @@
     "type": "project",
     "require": {
         "mongodb/mongodb": "^1.19",
-        "monolog/monolog": "^2.0"
+        "monolog/monolog": "^3.7"
     },
     "autoload": {
         "psr-4": {
             "SeuNamespace\\": "src/",
-            "App\\": "app/"
+            "App\\": "app/",
+            "Core\\": "core/"
         }
     },
     "scripts": {

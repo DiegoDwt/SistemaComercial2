@@ -1,5 +1,12 @@
 <?php
+
+namespace App\Models;
+
 session_start();
+
+use App\Controllers\ClienteController;
+use App\Models\Cliente;
+use Core\Banco;
 
 // Verifica se o usuário está logado
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
@@ -7,18 +14,27 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     exit;
 }
 
+// Inclui o autoload do Composer e o arquivo de configuração do Monolog
+require 'vendor/autoload.php';
+$log = require 'config/log.php';
+
+// Adiciona um log informando que o usuário está acessando a página de clientes
+$log->info('Usuário acessou a página de clientes.', ['username' => $_SESSION['username'] ?? 'unknown']);
+
 // Inclui o arquivo de configuração do banco de dados e as classes necessárias
 require_once 'core/banco.php';
 require_once 'app/models/Cliente.php';
+require_once __DIR__ . '/app/Controllers/ClientesController.php';
 
-use Core\Banco;
-use App\Models\Cliente;
 
 // Conecta ao banco de dados
 $client = Banco::conectar();
 if (!$client) {
+    $log->error('Erro ao conectar ao banco de dados.');
     die("Erro ao conectar ao banco de dados");
 }
+$log->info('Conectado ao banco de dados com sucesso.');
+
 $database = Banco::getDatabase();
 $collection = $database->Clientes;
 
@@ -35,6 +51,12 @@ function convertDocumentToCliente($doc) {
     );
 }
 
+// Verifica se foi enviada uma requisição POST para excluir um cliente
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
+    $clienteController = new ClienteController($log);
+    $clienteController->delete($_POST['id']);
+}
+
 // Busca documentos na coleção de clientes
 $clientes = [];
 foreach ($collection->find([], ['sort' => ['_id' => 1], 'limit' => 100]) as $doc) {
@@ -43,6 +65,7 @@ foreach ($collection->find([], ['sort' => ['_id' => 1], 'limit' => 100]) as $doc
 
 // Fecha a conexão com o banco de dados
 Banco::desconectar();
+$log->info('Desconectado do banco de dados.');
 ?>
 
 <!DOCTYPE html>
@@ -57,7 +80,7 @@ Banco::desconectar();
         <div class="jumbotron bg-primary">
             <div class="row text-white">
                 <h1 class="font-weight-bold">SISTEMA DE CADASTROS</h1>
-                <h3><span class="badge bg-primary"> Versão 1.0</span></h3>
+                <h3><span class="badge bg-primary"> Versão 2.0</span></h3>
             </div>
         </div>
         
@@ -100,7 +123,7 @@ Banco::desconectar();
                                 <a id="deleteBtn<?php echo htmlspecialchars($cliente->getId()); ?>" class="btn btn-danger delete-btn" href="#">Excluir</a>
                                 
                                 <!-- Formulário de Exclusão (oculto) -->
-                                <form id="deleteForm<?php echo htmlspecialchars($cliente->getId()); ?>" action="app/views/clientes/delete.php" method="post" style="display:none;">
+                                <form id="deleteForm<?php echo htmlspecialchars($cliente->getId()); ?>" action="clientes.php" method="post" style="display:none;">
                                     <input type="hidden" name="id" value="<?php echo htmlspecialchars($cliente->getId()); ?>">
                                     <!-- Adicionando um token CSRF -->
                                     <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
